@@ -8,9 +8,7 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 
 import javax.swing.text.html.Option;
-import java.util.InputMismatchException;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Program {
 
@@ -18,11 +16,12 @@ public class Program {
 
         Scanner sc = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
+        List<ChessPiece> captured = new ArrayList<>();
 
         while (true) {
             try {
                 UI.clearScrenn();
-                UI.printMatch(chessMatch);
+                UI.printMatch(chessMatch, captured);
                 System.out.println("");
                 System.out.println("Source: ");
                 ChessPosition source = UI.readChessPosition(sc);
@@ -36,6 +35,10 @@ public class Program {
                 ChessPosition target = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+
+                if (capturedPiece != null) {
+                    captured.add(capturedPiece);
+                }
 
             } catch (ChessExcepetion | InputMismatchException e) {
                 System.out.println(e.getMessage());
